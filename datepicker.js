@@ -33,7 +33,7 @@ class DatePicker extends Component {
       modalVisible: false,
       animatedHeight: new Animated.Value(0),
       allowPointerEvents: true,
-      isPicker: false
+      timePickerVisible: false
     };
 
     this.getDate = this.getDate.bind(this);
@@ -54,6 +54,14 @@ class DatePicker extends Component {
     if (nextProps.date !== this.props.date) {
       this.setState({date: this.getDate(nextProps.date)});
     }
+  }
+
+  showTimePicker(){
+    this.setState({timePickerVisible: true});
+  }
+
+  hideTimePicker(){
+    this.setState({timePickerVisible: false});
   }
 
   setModalVisible(visible) {
@@ -222,21 +230,19 @@ class DatePicker extends Component {
   onDatetimePicked({action, year, month, day}) {
     if (action !== DatePickerAndroid.dismissedAction) {
       this.setState({
-        isPicker: true,
         date: new Date(year, month, day)
       });
+      this.showTimePicker();
     } else {
       this.onPressCancel();
     }
   }
 
   onDatetimeTimePicked = (event, time) => {
-    if (time === undefined) {
-      this.setState({isPicker: false});
-    } else {
+    this.hideTimePicker();
+    if (time) {
       this.setState({
-        date: Moment(time),
-        isPicker: false
+        date: Moment(time)
       });
       this.datePicked();
     }
@@ -268,9 +274,7 @@ class DatePicker extends Component {
         }).then(this.onDatePicked);
       } else if (mode === 'time') {
         // 选时间
-        this.setState({
-          isPicker: true
-        });
+        this.showTimePicker();
       } else if (mode === 'datetime') {
         // 选日期和时间
         DatePickerAndroid.open({
@@ -419,7 +423,7 @@ class DatePicker extends Component {
               </TouchableComponent>
             </View>
           </Modal>}
-          {this.state.isPicker && Platform.OS === 'android' && (
+          {this.state.timePickerVisible && Platform.OS === 'android' && (
             <DateTimePicker
               minuteInterval={5}
               mode="time"
