@@ -211,11 +211,10 @@ class DatePicker extends Component {
 
     // confirm pressed
     const timePickerVisible = androidDatePickerMode === DATE_MODE && mode === DATETIME_MODE;
-    const _date = Moment(date).toDate();
-    const _androideDatePickerMode = timePickerVisible ? TIME_MODE : undefined;
+    const _androidDatePickerMode = timePickerVisible ? TIME_MODE : undefined;
     this.setState({
-      androidDatePickerMode: _androideDatePickerMode,
-      date: _date
+      androidDatePickerMode: _androidDatePickerMode,
+      date: Moment(date).toDate()
     });
 
     if (!timePickerVisible) {
