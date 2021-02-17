@@ -239,11 +239,11 @@ class DatePicker extends Component {
       this.setModalVisible(true);
     } else {
       const {mode} = this.props;
-      // 选日期
+      // Choose date
       if (mode === DATE_MODE || mode === DATETIME_MODE) {
         this.setState({androidDatePickerMode: DATE_MODE});
       } else if (mode === TIME_MODE) {
-        // 选时间
+        // Choose time
         this.setState({androidDatePickerMode: TIME_MODE});
       }
     }
